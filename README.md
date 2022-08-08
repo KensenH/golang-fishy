@@ -1,2 +1,2 @@
 # golang-fishy
-dummy app for pipeline testing
+dummy app for jenkins' testing
