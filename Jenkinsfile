@@ -1,3 +1,5 @@
+properties([pipelineTriggers([githubPush()])])
+
 pipeline {
 	agent any
 	
@@ -22,12 +24,18 @@ pipeline {
 	}
  
 	stages {
-		stage('Checkout SCM') {
-			steps {
-				echo '> Checking out the source control ...'
-				checkout scm
-			}
-		}
+        stage('Checkout SCM') {
+        steps {
+            checkout([
+            $class: 'GitSCM',
+            branches: [[name: 'master']],
+            userRemoteConfigs: [[
+                url: 'git@github.com:KensenH/golang-fishy.git',
+                credentialsId: '',
+            ]]
+            ])
+        }
+        }
 		stage('Version') {
 			steps {
 				script {
