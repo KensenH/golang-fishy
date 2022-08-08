@@ -31,7 +31,7 @@ pipeline {
             branches: [[name: 'master']],
             userRemoteConfigs: [[
                 url: 'git@github.com:KensenH/golang-fishy.git',
-                credentialsId: '',
+                credentialsId: 'github-kensenh-2',
             ]]
             ])
         }
