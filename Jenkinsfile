@@ -34,7 +34,7 @@ pipeline {
 				script {
 					env.VERSION = sh(script: "jx-release-version", returnStdout: true).trim()
 				}
-				withCredentials([gitUsernamePassword(credentialsId: 'gitlab-pipeline-bot', gitToolName: 'git-tool')]) {
+				withCredentials([gitUsernamePassword(credentialsId: 'github-kensenh-2', gitToolName: 'git-tool')]) {
 					sh "git config user.email '${env.PIPELINE_BOT_EMAIL}'"
 					sh "git config user.name '${env.PIPELINE_BOT_NAME}'"
 					sh "git tag -fa v${env.VERSION} -m '${env.VERSION}'"
