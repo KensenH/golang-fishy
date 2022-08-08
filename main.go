@@ -67,6 +67,5 @@ func getImageList() []string {
 		}
 		imageList = append(imageList, f.Name())
 	}
-
 	return imageList
 }
