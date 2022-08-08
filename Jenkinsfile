@@ -25,16 +25,9 @@ pipeline {
  
 	stages {
         stage('Checkout SCM') {
-        steps {
-            checkout([
-            $class: 'GitSCM',
-            branches: [[name: 'master']],
-            userRemoteConfigs: [[
-                url: 'https://github.com/KensenH/golang-fishy',
-                credentialsId: 'github-kensenh-2',
-            ]]
-            ])
-        }
+            steps {
+                checkout scm
+            }
         }
 		stage('Version') {
 			steps {
