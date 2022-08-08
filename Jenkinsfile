@@ -42,7 +42,7 @@ pipeline {
 				}
 			}
 		}
-		stage('Dockerize') {
+		stage('Compile and Dockerize') {
 			steps {
 				script {
                     sh "docker ps"
