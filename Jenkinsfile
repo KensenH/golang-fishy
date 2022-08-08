@@ -42,6 +42,15 @@ pipeline {
 				}
 			}
 		}
+		stage('(SAST) OWASP Dependency Check') {
+			steps {
+				sh "dependency-check -s . --enableExperimental -f JSON -o dependency-check.json"
+			}
+		}
+		stage('(SAST) Kubesec') {
+			steps {
+			}
+		}
 		stage('Compile and Dockerize') {
 			steps {
 				script {
@@ -51,6 +60,11 @@ pipeline {
 					echo '> Pushing image ...'
                     sh "docker push ${DOCKER_IMAGE_URL}:${env.VERSION}"
 				}
+			}
+		}
+		stage('Cleaning Up'){
+			steps {
+				
 			}
 		}
 	}

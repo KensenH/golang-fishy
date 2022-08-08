@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: golang-fishy
+spec:
+  selector:
+    app.kubernetes.io/name: golang-fishy
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
