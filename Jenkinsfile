@@ -30,7 +30,7 @@ pipeline {
             $class: 'GitSCM',
             branches: [[name: 'master']],
             userRemoteConfigs: [[
-                url: 'git@github.com:KensenH/golang-fishy.git',
+                url: 'https://github.com/KensenH/golang-fishy.git',
                 credentialsId: 'github-kensenh-2',
             ]]
             ])
