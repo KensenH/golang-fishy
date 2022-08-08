@@ -45,6 +45,7 @@ pipeline {
 		stage('Dockerize') {
 			steps {
 				script {
+                    sh "docker ps"
 					echo '> Creating image ...'
 					sh "docker build . -t ${DOCKER_IMAGE_URL}:${env.VERSION}"
 					echo '> Pushing image ...'
