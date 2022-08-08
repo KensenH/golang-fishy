@@ -46,11 +46,9 @@ pipeline {
 			steps {
 				script {
 					echo '> Creating image ...'
-					def dockerImage = docker.build("${PROJECT_ID}/${NAME}", "-f Dockerfile .")
+					sh "docker build . -t ${DOCKER_IMAGE_URL}:${env.VERSION}"
 					echo '> Pushing image ...'
-					docker.withRegistry("${DOCKER_REGISTRY_URL}", "gcr:pharmalink-id") {
-						dockerImage.push("${env.VERSION}")
-					}
+                    sh "docker push ${DOCKER_IMAGE_URL}:${env.VERSION}"
 				}
 			}
 		}
