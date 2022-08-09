@@ -47,22 +47,20 @@ pipeline {
 		}
 		stage('(SAST) OWASP Dependency Check') {
 			steps {
-				sh "echo $PATH"
-				sh "go"
 				dependencyCheck additionalArguments: '--scan . --format JSON --enableExperimental -o dependency-check-output.json', odcInstallation: 'dc'
 				sh "cat dependency-check-output.json"
 			}
 		}
 
-		// stage('(SAST) Kubesec') {
-		// 	steps {
-		// 		catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
-		// 			sh "helm template charts > rendered.yaml"
-		// 			sh "kubesec scan rendered.yaml -f json -o kubesec-output.json || true"
-		// 			sh "cat kubesec-output.json"
-		// 		}
-		// 	}
-		// }
+		stage('(SAST) Kubesec') {
+			steps {
+				catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+					sh "helm template charts > rendered.yaml"
+					sh "kubesec scan rendered.yaml -f json -o kubesec-output.json"
+					sh "cat kubesec-output.json"
+				}
+			}
+		}
 
 		stage('Compile and Dockerize') {
 			steps {
