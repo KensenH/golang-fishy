@@ -44,11 +44,15 @@ pipeline {
 		}
 		stage('(SAST) OWASP Dependency Check') {
 			steps {
-				sh "dependency-check -s . --enableExperimental -f JSON -o dependency-check.json"
+				sh "dependency-check -s . --enableExperimental -f JSON -o dependency-check-report.json"
+				sh "cat dependency-check-report.json"
 			}
 		}
 		stage('(SAST) Kubesec') {
 			steps {
+				sh "helm template charts > rendered.yaml"
+				sh "kubesec scan rendered.yaml -f json -o kubesec-output.json"
+				sh "cat kubesec-output.json"
 			}
 		}
 		stage('Compile and Dockerize') {
