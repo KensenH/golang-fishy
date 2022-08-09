@@ -48,13 +48,17 @@ pipeline {
 				sh "cat dependency-check-output.json"
 			}
 		}
+
 		// stage('(SAST) Kubesec') {
 		// 	steps {
-		// 		sh "helm template charts > rendered.yaml"
-		// 		sh "kubesec scan rendered.yaml -f json -o kubesec-output.json || true"
-		// 		sh "cat kubesec-output.json"
+		// 		catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+		// 			sh "helm template charts > rendered.yaml"
+		// 			sh "kubesec scan rendered.yaml -f json -o kubesec-output.json || true"
+		// 			sh "cat kubesec-output.json"
+		// 		}
 		// 	}
 		// }
+		
 		stage('Compile and Dockerize') {
 			steps {
 				script {
@@ -77,4 +81,5 @@ pipeline {
                     patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
                                [pattern: '.propsfile', type: 'EXCLUDE']])
         }
+	}
 }
