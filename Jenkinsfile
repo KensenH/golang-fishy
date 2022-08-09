@@ -21,6 +21,7 @@ pipeline {
 		ARTIFACTS_BUCKET_NAME = "gather-n-upload-artifacts"
 		PUBLIC_KEYS_BUCKET_NAME = "gather-n-upload-public-keys"
 		CHARTS_DIRECTORY = "charts"
+		COSIGN_PASSWORD = ' '
 	}
 	
 	options {
@@ -31,7 +32,6 @@ pipeline {
         stage('Checkout SCM') {
             steps {
                 checkout scm
-				sh "env"
             }
         }
 		stage('Version') {
@@ -76,6 +76,7 @@ pipeline {
 		}
 		stage('Gather And Upload') {
 			steps {
+				COSIGN_PASSWORD = ''
 				sh "gathernupload go -d ${CHARTS_DIRECTORY} --artifacts-bucket-name ${ARTIFACTS_BUCKET_NAME} --public-keys-bucket-name ${PUBLIC_KEYS_BUCKET_NAME}"
 			}
 		}
