@@ -53,7 +53,7 @@ pipeline {
 			steps {
 				catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
 					sh "helm template charts > rendered.yaml"
-					sh "kubesec scan rendered.yaml -f json -o kubesec-output.json"
+					sh "kubesec scan rendered.yaml -f json -o kubesec-output.json || true"
 					sh "cat kubesec-output.json"
 				}
 			}
