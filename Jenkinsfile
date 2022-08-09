@@ -45,9 +45,8 @@ pipeline {
 		}
 		stage('(SAST) OWASP Dependency Check') {
 			steps {
-				sh "ls /usr/local/dependency-check/bin"
-				sh "$DC -s . --enableExperimental -f JSON -o dependency-check-report.json"
-				sh "cat dependency-check-report.json"
+				dependencyCheck additionalArguments: '--scan . --format JSON --enableExperimental -o dependency-check-output.json', odcInstallation: 'dc'
+				sh "cat dependency-check-output.json"
 			}
 		}
 		stage('(SAST) Kubesec') {
@@ -68,11 +67,11 @@ pipeline {
 				}
 			}
 		}
-		// stage('Cleaning Up'){
-		// 	steps {
-				
-		// 	}
-		// }
+		stage('Cleaning Up'){
+			steps {
+				sh "rm dependency-check-output.json"		
+			}
+		}
 	}
 	// post {
 	// 	success {
