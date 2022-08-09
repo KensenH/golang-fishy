@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: golang-fishy
+  name: {{ .Values.name }}
   labels:
-    app: golang-fishy
+    app: {{ .Values.name }}
 spec:
-  replicas: 3
+  replicas: {{ .Values.container.replicas }}
   selector:
     matchLabels:
-      app: golang-fishy
+      app: {{ .Values.name }}
   template:
     metadata:
       labels:
-        app: golang-fishy
+        app: {{ .Values.name }}
     spec:
       containers:
-      - name: golang-fishy
-        image: gcr.io/arched-lens-353605/golang-fishy:0.0.9
+      - name: {{ .Values.name }}
+        image: {{ .Values.container.image }}
         ports:
-        - containerPort: 8080
+        - containerPort: {{ .Values.container.port }}

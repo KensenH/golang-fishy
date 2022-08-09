@@ -33,6 +33,7 @@ pipeline {
 			steps {
 				script {
 					env.VERSION = sh(script: "jx-release-version", returnStdout: true).trim()
+					sh "yq -i e '.container.image = "${DOCKER_IMAGE_URL}:${env.VERSION}"' charts/values.yaml"
 				}
 				withCredentials([gitUsernamePassword(credentialsId: 'github-kensenh-userpass', gitToolName: 'git-tool')]) {
 					sh "git config user.email '${env.PIPELINE_BOT_EMAIL}'"
@@ -45,7 +46,6 @@ pipeline {
 		stage('(SAST) OWASP Dependency Check') {
 			steps {
 				dependencyCheck additionalArguments: '--scan . --format JSON --enableExperimental -o dependency-check-output.json', odcInstallation: 'dc'
-				sh "cat dependency-check-output.json"
 			}
 		}
 
@@ -54,7 +54,6 @@ pipeline {
 				catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
 					sh "helm template charts > rendered.yaml"
 					sh "kubesec scan rendered.yaml -f json -o kubesec-output.json"
-					sh "cat kubesec-output.json"
 				}
 			}
 		}
