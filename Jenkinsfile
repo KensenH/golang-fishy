@@ -66,11 +66,11 @@ pipeline {
 				}
 			}
 		}
-		stage('Cleaning Up'){
-			steps {
+		// stage('Cleaning Up'){
+		// 	steps {
 				
-			}
-		}
+		// 	}
+		// }
 	}
 	// post {
 	// 	success {
