@@ -46,6 +46,7 @@ pipeline {
 			steps {
 				sh "dependency-check -s . --enableExperimental -f JSON -o dependency-check-report.json"
 				sh "cat dependency-check-report.json"
+				sh "ls /usr/local/dependency-check/bin"
 			}
 		}
 		stage('(SAST) Kubesec') {
