@@ -27,6 +27,7 @@ pipeline {
         stage('Checkout SCM') {
             steps {
                 checkout scm
+				sh "ls -la"
             }
         }
 		stage('Version') {
