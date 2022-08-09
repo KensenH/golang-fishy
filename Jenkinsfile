@@ -45,7 +45,7 @@ pipeline {
 		stage('(SAST) OWASP Dependency Check') {
 			steps {
 				sh "ls /usr/local/dependency-check/bin"
-				sh "dependency-check -s . --enableExperimental -f JSON -o dependency-check-report.json"
+				sh "$DC -s . --enableExperimental -f JSON -o dependency-check-report.json"
 				sh "cat dependency-check-report.json"
 			}
 		}
