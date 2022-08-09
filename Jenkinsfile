@@ -50,7 +50,7 @@ pipeline {
 		}
 		stage('(SAST) OWASP Dependency Check') {
 			steps {
-				dependencyCheck additionalArguments: '--scan . --format JSON --enableExperimental -o dependency-check-output.json', odcInstallation: 'dc'
+				dependencyCheck additionalArguments: '--scan . --format JSON --enableExperimental -o dependency-check-report.json', odcInstallation: 'dc'
 			}
 		}
 
@@ -77,6 +77,7 @@ pipeline {
 		stage('Gather And Upload') {
 			steps {
 				script{
+					sh "ls -la"
 					COSIGN_PASSWORD = ''
 					sh "gathernupload go -d ${CHARTS_DIRECTORY} --artifacts-bucket-name ${ARTIFACTS_BUCKET_NAME} --public-keys-bucket-name ${PUBLIC_KEYS_BUCKET_NAME} --rm"
 				}
