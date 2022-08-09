@@ -27,7 +27,7 @@ pipeline {
         stage('Checkout SCM') {
             steps {
                 checkout scm
-				rm "dependency-check-report.json"
+				sh "rm dependency-check-report.json"
             }
         }
 		stage('Version') {
