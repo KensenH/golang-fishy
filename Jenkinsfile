@@ -33,7 +33,7 @@ pipeline {
 			steps {
 				script {
 					env.VERSION = sh(script: "jx-release-version", returnStdout: true).trim()
-					sh "yq -i e '.container.image = "${DOCKER_IMAGE_URL}:${env.VERSION}"' charts/values.yaml"
+					sh "yq -i e \".container.image = \"${DOCKER_IMAGE_URL}:${env.VERSION}\"\" charts/values.yaml"
 				}
 				withCredentials([gitUsernamePassword(credentialsId: 'github-kensenh-userpass', gitToolName: 'git-tool')]) {
 					sh "git config user.email '${env.PIPELINE_BOT_EMAIL}'"
