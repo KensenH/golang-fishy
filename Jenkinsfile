@@ -21,7 +21,6 @@ pipeline {
 		ARTIFACTS_BUCKET_NAME = "gather-n-upload-artifacts"
 		PUBLIC_KEYS_BUCKET_NAME = "gather-n-upload-public-keys"
 		CHARTS_DIRECTORY = "charts"
-		COSIGN_PASSWORD = ""
 	}
 	
 	options {
