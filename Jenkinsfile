@@ -7,7 +7,6 @@ pipeline {
 		GO111MODULE = "on"
 
 		PROJECT_ID = "arched-lens-353605"
-		GOOGLE_APPLICATION_CREDENTIAL = "/usr/local/etc/artifacts-broker.json"
 
 		NAME = "golang-fishy"
 
