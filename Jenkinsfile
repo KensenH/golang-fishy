@@ -18,9 +18,6 @@ pipeline {
 		PIPELINE_BOT_EMAIL = "email@email.com"
 		PIPELINE_BOT_NAME = "testing_jenkins"
 	}
-	tools {
-  		go 'go'
-	}
 	
 	options {
 		skipDefaultCheckout(true)
