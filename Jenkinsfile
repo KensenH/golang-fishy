@@ -45,6 +45,7 @@ pipeline {
 		stage('(SAST) OWASP Dependency Check') {
 			steps {
 				sh "echo $PATH"
+				sh "go"
 				dependencyCheck additionalArguments: '--scan . --format JSON --enableExperimental -o dependency-check-output.json', odcInstallation: 'dc'
 				sh "cat dependency-check-output.json"
 			}
