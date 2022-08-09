@@ -17,6 +17,10 @@ pipeline {
 		
 		PIPELINE_BOT_EMAIL = "email@email.com"
 		PIPELINE_BOT_NAME = "testing_jenkins"
+
+		ARTIFACTS_BUCKET_NAME = "gather-n-upload-artifacts"
+		PUBLIC_KEYS_BUCKET_NAME = "gather-n-upload-public-keys"
+		CHARTS_DIRECTORY = "charts"
 	}
 	
 	options {
@@ -34,7 +38,6 @@ pipeline {
 				script {
 					env.VERSION = sh(script: "jx-release-version", returnStdout: true).trim()
 					sh "yq -i e '.container.image = \"${DOCKER_IMAGE_URL}:${env.VERSION}\"' charts/values.yaml"
-					sh "cat charts/values.yaml"
 				}
 				withCredentials([gitUsernamePassword(credentialsId: 'github-kensenh-userpass', gitToolName: 'git-tool')]) {
 					sh "git config user.email '${env.PIPELINE_BOT_EMAIL}'"
@@ -68,6 +71,11 @@ pipeline {
 					echo '> Pushing image ...'
                     sh "docker push ${DOCKER_IMAGE_URL}:${env.VERSION}"
 				}
+			}
+		}
+		stage('Gather And Upload') {
+			steps {
+				sh "gathernupload go -d ${CHARTS_DIRECTORY} --artifacts-bucket-name ${ARTIFACTS_BUCKET_NAME} --public-keys-bucket-name ${PUBLIC_KEYS_BUCKET_NAME}"
 			}
 		}
 		
