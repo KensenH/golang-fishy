@@ -77,6 +77,7 @@ pipeline {
 		stage('Gather And Upload') {
 			steps {
 				script{
+					sh "pwd"
 					COSIGN_PASSWORD = ''
 					sh "gathernupload go -d ${CHARTS_DIRECTORY} --artifacts-bucket-name ${ARTIFACTS_BUCKET_NAME} --public-keys-bucket-name ${PUBLIC_KEYS_BUCKET_NAME}"
 				}
@@ -84,14 +85,14 @@ pipeline {
 		}
 		
 	}
-	post {
-        always {
-            cleanWs(cleanWhenNotBuilt: false,
-                    deleteDirs: true,
-                    disableDeferredWipeout: true,
-                    notFailBuild: true,
-                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
-                               [pattern: '.propsfile', type: 'EXCLUDE']])
-        }
-	}
+	// post {
+    //     always {
+    //         cleanWs(cleanWhenNotBuilt: false,
+    //                 deleteDirs: true,
+    //                 disableDeferredWipeout: true,
+    //                 notFailBuild: true,
+    //                 patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+    //                            [pattern: '.propsfile', type: 'EXCLUDE']])
+    //     }
+	// }
 }
