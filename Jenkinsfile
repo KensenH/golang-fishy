@@ -27,7 +27,6 @@ pipeline {
         stage('Checkout SCM') {
             steps {
                 checkout scm
-				sh "rm dependency-check-report.json"
             }
         }
 		stage('Version') {
@@ -69,17 +68,26 @@ pipeline {
 				}
 			}
 		}
-		stage('Cleaning Up'){
-			steps {
-				sh "rm dependency-check-output.json"		
-			}
-		}
+		// stage('Cleaning Up'){
+		// 	steps {
+		// 		sh "rm dependency-check-output.json"		
+		// 	}
+		// }
+		
 	}
-	// post {
+	post {
+        always {
+            cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                               [pattern: '.propsfile', type: 'EXCLUDE']])
+        }
 	// 	success {
 	// 	}
 
 	// 	regression {
 	// 	}
-	// }
+	}
 }
