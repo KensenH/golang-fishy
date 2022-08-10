@@ -29,6 +29,11 @@ pipeline {
 	}
  
 	stages {
+		stage('Init') {
+			steps {
+				sh "echo /usr/local/share/Build.txt"
+			}
+		}
         stage('Checkout SCM') {
             steps {
                 checkout scm
@@ -77,10 +82,14 @@ pipeline {
 		stage('Gather And Upload') {
 			steps {
 				script{
-					sh "ls -la"
 					COSIGN_PASSWORD = ''
 					sh "gathernupload go -d ${CHARTS_DIRECTORY} --artifacts-bucket-name ${ARTIFACTS_BUCKET_NAME} --public-keys-bucket-name ${PUBLIC_KEYS_BUCKET_NAME} --rm"
 				}
+			}
+		}
+		stage('Upload Manifest to repository (File System)') {
+			steps {
+				sh "cp /var/lib/manifest-repository"
 			}
 		}
 		
