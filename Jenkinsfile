@@ -29,9 +29,9 @@ pipeline {
 	}
  
 	stages {
-		stage('Init') {
+		stage('Build') {
 			steps {
-				sh "echo /usr/local/share/Build.txt"
+				sh "cat /usr/local/share/Build.txt"
 			}
 		}
         stage('Checkout SCM') {
