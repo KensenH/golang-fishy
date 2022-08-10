@@ -90,7 +90,7 @@ pipeline {
 		stage('Deploy Manifest to Kubernetes') {
 			steps {
 				script {
-					sh "kubectl apply -f $GNU_OUTPUT"
+					sh "kubectl apply -f ${cat gnu_output.txt}"
 				}
 			}
 		}
