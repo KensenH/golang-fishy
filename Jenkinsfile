@@ -84,6 +84,7 @@ pipeline {
 				script{
 					COSIGN_PASSWORD = ''
 					sh "gathernupload go -d ${CHARTS_DIRECTORY} --artifacts-bucket-name ${ARTIFACTS_BUCKET_NAME} --public-keys-bucket-name ${PUBLIC_KEYS_BUCKET_NAME} -o /usr/local/share/charts_repository/ --rm"
+					sh "ls -la"
 				}
 			}
 		}
