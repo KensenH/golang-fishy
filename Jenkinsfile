@@ -22,6 +22,7 @@ pipeline {
 		PUBLIC_KEYS_BUCKET_NAME = "gather-n-upload-public-keys"
 		CHARTS_DIRECTORY = "charts"
 		COSIGN_PASSWORD = ' '
+		NAMESPACE = "default"
 	}
 	
 	options {
@@ -32,6 +33,7 @@ pipeline {
 		stage('Build') {
 			steps {
 				sh "cat /usr/local/share/build.txt"
+				sh "yq -i e '.namespace = \"${NAMESPACE}\"' charts/values.yaml"
 			}
 		}
         stage('Checkout SCM') {

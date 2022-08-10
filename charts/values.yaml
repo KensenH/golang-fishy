@@ -1,4 +1,5 @@
 name: golang-fishy
+namespace: none
 container:
   image: none
   replicas: 1
