@@ -83,7 +83,14 @@ pipeline {
 			steps {
 				script{
 					COSIGN_PASSWORD = ''
-					sh "gathernupload go -d ${CHARTS_DIRECTORY} --artifacts-bucket-name ${ARTIFACTS_BUCKET_NAME} --public-keys-bucket-name ${PUBLIC_KEYS_BUCKET_NAME} -o /usr/local/share/charts_repository/ --rm"
+					sh "gathernupload go -d charts --artifacts-bucket-name gather-n-upload-artifacts --public-keys-bucket-name gather-n-upload-public-keys --rm"
+				}
+			}
+		}
+		stage('Deploy Manifest to Kubernetes') {
+			steps {
+				script {
+					sh "kubectl apply -f ${GNU_OUTPUT}"
 				}
 			}
 		}
