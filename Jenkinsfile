@@ -87,12 +87,6 @@ pipeline {
 				}
 			}
 		}
-		stage('Upload Manifest to repository (File System)') {
-			steps {
-				sh "cp /var/lib/manifest-repository"
-			}
-		}
-		
 	}
 	post {
         always {
