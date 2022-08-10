@@ -91,7 +91,7 @@ pipeline {
 			steps {
 					sh "ls -la"
 					sh "export GNU_OUTPUT=\$(cat gnu_output.txt)"
-					sh "kubectl apply -f \$GNU_OUTPUT"
+					sh "kubectl apply -f ${GNU_OUTPUT}"
 			}
 		}
 	}
