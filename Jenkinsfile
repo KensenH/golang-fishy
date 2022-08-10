@@ -83,17 +83,15 @@ pipeline {
 			steps {
 				script{
 					COSIGN_PASSWORD = ''
-					sh "gathernupload go -d charts --artifacts-bucket-name gather-n-upload-artifacts --public-keys-bucket-name gather-n-upload-public-keys --rm"
+					sh "gathernupload go -d charts --artifacts-bucket-name gather-n-upload-artifacts --public-keys-bucket-name gather-n-upload-public-keys -o /usr/local/share/charts_repository/ --rm"
 				}
 			}
 		}
 		stage('Deploy Manifest to Kubernetes') {
 			steps {
-				script {
 					sh "ls -la"
 					sh "export GNU_OUTPUT=\$(cat gnu_output.txt)"
 					sh "kubectl apply -f \$GNU_OUTPUT"
-				}
 			}
 		}
 	}
