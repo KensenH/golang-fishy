@@ -33,7 +33,6 @@ pipeline {
 		stage('Build') {
 			steps {
 				sh "cat /usr/local/share/build.txt"
-				sh "yq -i e '.namespace = \"${NAMESPACE}\"' charts/values.yaml"
 			}
 		}
         stage('Checkout SCM') {
@@ -53,6 +52,11 @@ pipeline {
 					sh "git tag -fa v${env.VERSION} -m '${env.VERSION}'"
 					sh "git push origin v${env.VERSION}"
 				}
+			}
+		}
+		stage("Set Namespace") {
+			steps {
+				sh "yq -i e '.namespace = \"${NAMESPACE}\"' charts/values.yaml"
 			}
 		}
 		stage('(SAST) OWASP Dependency Check') {
