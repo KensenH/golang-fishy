@@ -45,7 +45,7 @@ pipeline {
 			steps {
 				script {
 					env.VERSION = sh(script: "jx-release-version", returnStdout: true).trim()
-					sh "yq -i e '.container.image = \"${DOCKER_IMAGE_URL}:${env.VERSION}\"' charts/values.yaml"
+					sh "yq -i e '.container.image = \"${DOCKER_IMAGE_URL}:kubesec${env.VERSION}\"' charts/values.yaml"
 				}
 				withCredentials([gitUsernamePassword(credentialsId: 'github-kensenh-userpass', gitToolName: 'git-tool')]) {
 					sh "git config user.email '${env.PIPELINE_BOT_EMAIL}'"
@@ -80,9 +80,9 @@ pipeline {
 				script {
                     sh "docker ps"
 					echo '> Creating image ...'
-					sh "docker build . -t ${DOCKER_IMAGE_URL}:${env.VERSION}"
+					sh "docker build . -t ${DOCKER_IMAGE_URL}:kubesec${env.VERSION}"
 					echo '> Pushing image ...'
-                    sh "docker push ${DOCKER_IMAGE_URL}:${env.VERSION}"
+                    sh "docker push ${DOCKER_IMAGE_URL}:kubesec${env.VERSION}"
 				}
 			}
 		}
@@ -96,6 +96,7 @@ pipeline {
 		}
 		stage('Deploy Manifest to Kubernetes') {
 			steps {
+					sh "cat /usr/local/share/deployment.txt"
 					sh "kubectl apply -f \$(cat gnu_output.txt)"
 			}
 		}

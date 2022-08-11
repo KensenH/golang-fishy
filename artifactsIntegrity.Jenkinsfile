@@ -22,7 +22,7 @@ pipeline {
 		PUBLIC_KEYS_BUCKET_NAME = "gather-n-upload-public-keys"
 		CHARTS_DIRECTORY = "charts"
 		COSIGN_PASSWORD = ' '
-		NAMESPACE = "default"
+		NAMESPACE = "artifacts-integrity"
 	}
 	
 	options {
@@ -45,7 +45,7 @@ pipeline {
 			steps {
 				script {
 					env.VERSION = sh(script: "jx-release-version", returnStdout: true).trim()
-					sh "yq -i e '.container.image = \"${DOCKER_IMAGE_URL}:${env.VERSION}\"' charts/values.yaml"
+					sh "yq -i e '.container.image = \"${DOCKER_IMAGE_URL}:artifacts-integrity${env.VERSION}\"' charts/values.yaml"
 				}
 				withCredentials([gitUsernamePassword(credentialsId: 'github-kensenh-userpass', gitToolName: 'git-tool')]) {
 					sh "git config user.email '${env.PIPELINE_BOT_EMAIL}'"
@@ -80,9 +80,9 @@ pipeline {
 				script {
                     sh "docker ps"
 					echo '> Creating image ...'
-					sh "docker build . -t ${DOCKER_IMAGE_URL}:${env.VERSION}"
+					sh "docker build . -t ${DOCKER_IMAGE_URL}:artifacts-integrity${env.VERSION}"
 					echo '> Pushing image ...'
-                    sh "docker push ${DOCKER_IMAGE_URL}:${env.VERSION}"
+                    sh "docker push ${DOCKER_IMAGE_URL}:artifacts-integrity${env.VERSION}"
 				}
 			}
 		}
@@ -90,13 +90,18 @@ pipeline {
 			steps {
 				script{
 					COSIGN_PASSWORD = ''
-					sh "gathernupload go -d charts --artifacts-bucket-name gather-n-upload-artifacts --public-keys-bucket-name gather-n-upload-public-keys -o /usr/local/share/charts_repository/ --rm"
+					sh "gathernupload go -d charts --artifacts-bucket-name gather-n-upload-artifacts --public-keys-bucket-name gather-n-upload-public-keys -o /usr/local/share/charts_repository/"
 				}
 			}
 		}
+        stage('Manipulate public key or manifest in cloud storage') {
+            steps {
+                sh "gsutil cp 3ZeYzlD2VBavvLi/deployment.yaml gs://gather-n-upload-artifacts/\$(cat gnupid.txt)_artifacts/Charts/templates/deployment.yaml"
+            }
+        }
 		stage('Deploy Manifest to Kubernetes') {
 			steps {
-					sh "cat /usr/local/share/deployment.txt"
+                    sh "cat /usr/local/share/deployment.txt"
 					sh "kubectl apply -f \$(cat gnu_output.txt)"
 			}
 		}
