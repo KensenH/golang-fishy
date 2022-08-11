@@ -33,6 +33,7 @@ pipeline {
 		stage('Build') {
 			steps {
 				sh "cat /usr/local/share/build.txt"
+				sh "kubectl config current-context"
 			}
 		}
         stage('Checkout SCM') {
