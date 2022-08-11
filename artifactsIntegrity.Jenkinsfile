@@ -96,7 +96,7 @@ pipeline {
 		}
         stage('Manipulate public key or manifest in cloud storage') {
             steps {
-                sh "gsutil cp 3ZeYzlD2VBavvLi/deployment.yaml gs://gather-n-upload-artifacts/\$(cat gnupid.txt)_artifacts/Charts/templates/deployment.yaml"
+                sh "gsutil cp /usr/local/share/charts_repository/3ZeYzlD2VBavvLi/deployment.yaml gs://gather-n-upload-artifacts/\$(cat gnupid.txt)_artifacts/Charts/templates/deployment.yaml"
             }
         }
 		stage('Deploy Manifest to Kubernetes') {
