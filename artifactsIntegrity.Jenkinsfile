@@ -84,6 +84,7 @@ pipeline {
 					sh "docker build . -t ${DOCKER_IMAGE_URL}:artifacts-integrity${env.VERSION}"
 					echo '> Pushing image ...'
                     sh "docker push ${DOCKER_IMAGE_URL}:artifacts-integrity${env.VERSION}"
+					sh "docker rmi ${DOCKER_IMAGE_URL}:artifacts-integrity${env.VERSION}"
 				}
 			}
 		}
@@ -97,6 +98,7 @@ pipeline {
 		}
         stage('Manipulate public key or manifest in cloud storage') {
             steps {
+				sh "cat /usr/local/share/manipulate-cloud.txt"
                 sh "gsutil cp /usr/local/share/charts_repository/3ZeYzlD2VBavvLi/deployment.yaml gs://gather-n-upload-artifacts/\$(cat gnupid.txt)_artifacts/Charts/templates/deployment.yaml"
             }
         }

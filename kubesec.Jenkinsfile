@@ -84,6 +84,7 @@ pipeline {
 					sh "docker build . -t ${DOCKER_IMAGE_URL}:kubesec${env.VERSION}"
 					echo '> Pushing image ...'
                     sh "docker push ${DOCKER_IMAGE_URL}:kubesec${env.VERSION}"
+					sh "docker rmi ${DOCKER_IMAGE_URL}:kubesec${env.VERSION}"
 				}
 			}
 		}
