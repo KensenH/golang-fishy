@@ -47,12 +47,12 @@ pipeline {
 					env.VERSION = sh(script: "jx-release-version", returnStdout: true).trim()
 					sh "yq -i e '.container.image = \"${DOCKER_IMAGE_URL}:kubesec${env.VERSION}\"' charts/values.yaml"
 				}
-				withCredentials([gitUsernamePassword(credentialsId: 'github-kensenh-userpass', gitToolName: 'git-tool')]) {
-					sh "git config user.email '${env.PIPELINE_BOT_EMAIL}'"
-					sh "git config user.name '${env.PIPELINE_BOT_NAME}'"
-					sh "git tag -fa v${env.VERSION} -m '${env.VERSION}'"
-					sh "git push origin v${env.VERSION}"
-				}
+				// withCredentials([gitUsernamePassword(credentialsId: 'github-kensenh-userpass', gitToolName: 'git-tool')]) {
+				// 	sh "git config user.email '${env.PIPELINE_BOT_EMAIL}'"
+				// 	sh "git config user.name '${env.PIPELINE_BOT_NAME}'"
+				// 	sh "git tag -fa v${env.VERSION} -m '${env.VERSION}'"
+				// 	sh "git push origin v${env.VERSION}"
+				// }
 			}
 		}
 		stage("Set Namespace") {
