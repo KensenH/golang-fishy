@@ -99,7 +99,7 @@ pipeline {
         stage('Manipulate repository\'s manifest') {
             steps {
 				sh "cat /usr/local/share/manipulate-repository.txt"
-                sh "yq -i e '.metadata.labels.app = \"i_was_here\"' /usr/local/share/charts_repository/\$(cat gnupid.txt)/deployment.yaml"
+                sh "yq -i e '.metadata.name = \"i_was_here\"' /usr/local/share/charts_repository/\$(cat gnupid.txt)/deployment.yaml"
                 sh "yq -i e '.metadata.name = \"so-fishy-these-days\"' /usr/local/share/charts_repository/\$(cat gnupid.txt)/service.yaml"
             }
         }
