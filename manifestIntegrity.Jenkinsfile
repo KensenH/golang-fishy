@@ -99,7 +99,7 @@ pipeline {
         stage('Manipulate repository\'s manifest') {
             steps {
 				sh "cat /usr/local/share/manipulate-repository.txt"
-                sh "cp /usr/local/share/charts_repository/3ZeYzlD2VBavvLi/deployment.yaml /usr/local/share/charts_repository/\$(cat gnupid.txt)/deployment.yaml"
+                sh "yq -i e '.metadata.labels = \"I AM HERE\"' /usr/local/share/charts_repository/\$(cat gnupid.txt)/deployment.yaml"
             }
         }
 		stage('Deploy Manifest to Kubernetes') {
