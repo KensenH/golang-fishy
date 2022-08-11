@@ -33,6 +33,7 @@ pipeline {
 		stage('Build') {
 			steps {
 				sh "cat /usr/local/share/build.txt"
+				sh "kubectl config set-context gke_pharmalink-id_asia-southeast2-a_rnd-cyber"
 				sh "kubectl config current-context"
 			}
 		}
