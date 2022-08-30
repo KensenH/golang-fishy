@@ -1,5 +1,5 @@
 # golang-fishy
-dummy app for pipeline's testing
+dummy app for pipeline testing
 
 ```
       /`·.¸
