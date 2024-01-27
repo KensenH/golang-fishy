@@ -10,7 +10,7 @@ COPY . /work
 RUN go build -o bin/fish .
 
 
-FROM alpine:3.16.0 AS run
+FROM alpine:3.18.6 AS run
 
 COPY --from=build /work/bin/fish /usr/local/bin/
 COPY fish /home/fish
